@@ -1,0 +1,22 @@
+plain = input("Enter the plaintext: ").upper().replace(" ", "")
+
+key = [9,0,1,7,23,15,21,14,11,11,2,8,9]
+
+cipher = ""
+
+# Encryption
+for i in range(len(plain)):
+    p = ord(plain[i]) - 65
+    c = (p + key[i]) % 26
+    cipher += chr(c + 65)
+
+print("Ciphertext:", cipher)
+
+# Decryption
+text = ""
+for i in range(len(cipher)):
+    c = ord(cipher[i]) - 65
+    p = (c - key[i]) % 26
+    text += chr(p + 65)
+
+print("Decrypted Text:", text)
