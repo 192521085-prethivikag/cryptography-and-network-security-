@@ -1,0 +1,14 @@
+# DES Key Generation for Decryption
+
+keys = []
+
+print("Enter 16 encryption keys:")
+
+for i in range(16):
+    key = input("K" + str(i+1) + ": ")
+    keys.append(key)
+
+print("\nDecryption Keys:")
+
+for i in range(15, -1, -1):
+    print("K" + str(16-i) + " =", keys[i])
