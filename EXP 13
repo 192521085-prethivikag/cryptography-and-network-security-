@@ -1,0 +1,19 @@
+import numpy as np
+
+# Known plaintext matrix
+P = np.array([[7, 4],
+              [11, 11]])
+
+# Corresponding ciphertext matrix
+C = np.array([[0, 19],
+              [9, 2]])
+
+# Inverse of plaintext matrix (mod 26)
+P_inv = np.array([[25, 22],
+                  [1, 23]])
+
+# Recover key
+K = np.dot(C, P_inv) % 26
+
+print("Recovered Key Matrix:")
+print(K)
