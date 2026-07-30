@@ -1,0 +1,21 @@
+# DES Subkey Generation
+
+key = input("Enter 56-bit binary key: ")
+
+if len(key) != 56:
+    print("Key must be exactly 56 bits.")
+else:
+    # Split into two 28-bit halves
+    left = key[:28]
+    right = key[28:]
+
+    # Take first 24 bits from each half
+    left24 = left[:24]
+    right24 = right[:24]
+
+    # Form 48-bit subkey
+    subkey = left24 + right24
+
+    print("Left Half (28 bits) :", left)
+    print("Right Half (28 bits):", right)
+    print("Generated 48-bit Subkey:", subkey)
