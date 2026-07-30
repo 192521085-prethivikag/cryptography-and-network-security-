@@ -1,0 +1,50 @@
+# Hill Cipher Encryption and Decryption
+
+key = [[9, 4],
+       [5, 7]]
+
+text = input("Enter the plaintext: ").upper()
+
+# Remove spaces
+plain = ""
+for ch in text:
+    if ch.isalpha():
+        plain += ch
+
+# Add X if odd length
+if len(plain) % 2 != 0:
+    plain += "X"
+
+cipher = ""
+
+# Encryption
+for i in range(0, len(plain), 2):
+    p1 = ord(plain[i]) - 65
+    p2 = ord(plain[i+1]) - 65
+
+    c1 = (9*p1 + 4*p2) % 26
+    c2 = (5*p1 + 7*p2) % 26
+
+    cipher += chr(c1 + 65)
+    cipher += chr(c2 + 65)
+
+print("Ciphertext:", cipher)
+
+# Inverse of key matrix
+inverse = [[7, 22],
+           [21, 9]]
+
+decrypted = ""
+
+# Decryption
+for i in range(0, len(cipher), 2):
+    c1 = ord(cipher[i]) - 65
+    c2 = ord(cipher[i+1]) - 65
+
+    p1 = (7*c1 + 22*c2) % 26
+    p2 = (21*c1 + 9*c2) % 26
+
+    decrypted += chr(p1 + 65)
+    decrypted += chr(p2 + 65)
+
+print("Decrypted Text:", decrypted)
