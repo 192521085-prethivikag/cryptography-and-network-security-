@@ -1,0 +1,17 @@
+# Padding for ECB, CBC and CFB Modes
+
+text = input("Enter the plaintext: ")
+block_size = int(input("Enter block size: "))
+
+# Add padding (1 followed by 0's)
+pad = block_size - (len(text) % block_size)
+
+if pad == 0:
+    pad = block_size
+
+text += '1'
+
+for i in range(pad - 1):
+    text += '0'
+
+print("Padded Plaintext:", text)
