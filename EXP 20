@@ -1,0 +1,12 @@
+# ECB Mode Encryption
+
+plaintext = input("Enter plaintext: ")
+key = int(input("Enter key (0-255): "))
+
+cipher = ""
+
+for ch in plaintext:
+    c = chr(ord(ch) ^ key)
+    cipher += c
+
+print("Ciphertext:", cipher)
