@@ -1,0 +1,35 @@
+# CBC Mode using Affine Cipher (mod 256)
+
+text = input("Enter plaintext: ")
+
+a = 5
+b = 8
+iv = 10
+
+cipher = []
+prev = iv
+
+# Encryption
+for ch in text:
+    p = ord(ch)
+    x = p ^ prev
+    c = (a * x + b) % 256
+    cipher.append(c)
+    prev = c
+
+print("Ciphertext:", cipher)
+
+# Inverse of 5 mod 256 = 205
+a_inv = 205
+
+plain = ""
+prev = iv
+
+# Decryption
+for c in cipher:
+    x = (a_inv * (c - b)) % 256
+    p = x ^ prev
+    plain += chr(p)
+    prev = c
+
+print("Decrypted Text:", plain)
