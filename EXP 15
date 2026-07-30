@@ -1,0 +1,20 @@
+cipher = input("Enter the ciphertext: ").upper()
+n = int(input("Enter number of possible plaintexts: "))
+
+count = 0
+
+for key in range(26):
+    plain = ""
+
+    for ch in cipher:
+        if ch.isalpha():
+            p = (ord(ch) - ord('A') - key) % 26
+            plain += chr(p + ord('A'))
+        else:
+            plain += ch
+
+    print("Key =", key, ":", plain)
+
+    count += 1
+    if count == n:
+        break
