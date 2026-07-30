@@ -1,0 +1,30 @@
+# CTR Mode using Affine Cipher (mod 256)
+
+text = input("Enter plaintext: ")
+
+a = 5
+b = 8
+counter = 0
+
+cipher = []
+
+# Encryption
+for ch in text:
+    keystream = (a * counter + b) % 256
+    c = ord(ch) ^ keystream
+    cipher.append(c)
+    counter += 1
+
+print("Ciphertext:", cipher)
+
+# Decryption
+counter = 0
+plain = ""
+
+for c in cipher:
+    keystream = (a * counter + b) % 256
+    p = c ^ keystream
+    plain += chr(p)
+    counter += 1
+
+print("Decrypted Text:", plain)
