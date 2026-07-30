@@ -1,0 +1,17 @@
+# CBC Mode Encryption
+
+plaintext = input("Enter plaintext: ")
+key = int(input("Enter key (0-255): "))
+iv = int(input("Enter Initial Vector (IV): "))
+
+cipher = []
+prev = iv
+
+for ch in plaintext:
+    x = ord(ch) ^ prev
+    c = x ^ key
+    cipher.append(c)
+    prev = c
+
+print("Ciphertext:")
+print(cipher)
