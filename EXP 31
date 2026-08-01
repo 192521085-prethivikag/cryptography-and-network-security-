@@ -1,0 +1,23 @@
+block_size = int(input("Enter block size (64 or 128): "))
+
+if block_size == 64:
+    const = "1B"
+elif block_size == 128:
+    const = "87"
+else:
+    print("Invalid block size")
+    exit()
+
+L = int(input("Enter L (in hexadecimal): "), 16)
+
+K1 = L << 1
+if K1 >= (1 << block_size):
+    K1 = (K1 & ((1 << block_size) - 1)) ^ int(const, 16)
+
+K2 = K1 << 1
+if K2 >= (1 << block_size):
+    K2 = (K2 & ((1 << block_size) - 1)) ^ int(const, 16)
+
+print("Constant:", const)
+print("Subkey K1:", hex(K1))
+print("Subkey K2:", hex(K2))
