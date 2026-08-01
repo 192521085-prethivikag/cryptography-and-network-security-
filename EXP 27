@@ -1,0 +1,32 @@
+# RSA for Alphabetic Characters
+
+p = 11
+q = 13
+
+n = p * q
+phi = (p - 1) * (q - 1)
+
+e = 7
+d = 103
+
+text = input("Enter plaintext: ").upper()
+
+cipher = []
+
+# Encryption
+for ch in text:
+    if ch.isalpha():
+        m = ord(ch) - 65
+        c = pow(m, e, n)
+        cipher.append(c)
+
+print("Ciphertext:", cipher)
+
+plain = ""
+
+# Decryption
+for c in cipher:
+    m = pow(c, d, n)
+    plain += chr(m + 65)
+
+print("Decrypted Text:", plain)
