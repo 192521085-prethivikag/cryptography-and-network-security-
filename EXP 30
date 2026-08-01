@@ -1,0 +1,12 @@
+key = int(input("Enter key: "))
+x = int(input("Enter one-block message: "))
+
+t = x ^ key
+
+second_block = x ^ t
+
+mac = (second_block ^ t) ^ key
+
+print("MAC of one-block message:", t)
+print("Second Block (X XOR T):", second_block)
+print("CBC-MAC of two-block message:", mac)
