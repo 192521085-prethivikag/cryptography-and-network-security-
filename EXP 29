@@ -1,0 +1,18 @@
+# SHA-3 Capacity Lane Update (Ignoring Permutation)
+
+block_size = 1024
+lane_size = 64
+
+# SHA-3 state = 1600 bits
+state_size = 1600
+capacity = state_size - block_size
+
+rate_lanes = block_size // lane_size
+capacity_lanes = capacity // lane_size
+
+print("Rate Lanes:", rate_lanes)
+print("Capacity Lanes:", capacity_lanes)
+
+rounds = capacity_lanes
+
+print("Rounds required for all capacity lanes to become non-zero:", rounds)
