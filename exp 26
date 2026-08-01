@@ -1,0 +1,27 @@
+import math
+
+p = int(input("Enter prime number p: "))
+q = int(input("Enter prime number q: "))
+
+n = p * q
+phi = (p - 1) * (q - 1)
+
+e = int(input("Enter public key (e): "))
+
+while math.gcd(e, phi) != 1:
+    print("Invalid e! Enter another value.")
+    e = int(input("Enter public key (e): "))
+
+d = 1
+while (e * d) % phi != 1:
+    d += 1
+
+m = int(input("Enter message: "))
+
+cipher = pow(m, e, n)
+plain = pow(cipher, d, n)
+
+print("Public Key:", (e, n))
+print("Private Key:", (d, n))
+print("Ciphertext:", cipher)
+print("Decrypted Message:", plain)
