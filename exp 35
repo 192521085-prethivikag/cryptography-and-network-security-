@@ -1,0 +1,21 @@
+plaintext = input("Enter plaintext: ").upper().replace(" ", "")
+
+key = list(map(int, input("Enter key stream: ").split()))
+
+cipher = ""
+
+for i in range(len(plaintext)):
+    p = ord(plaintext[i]) - 65
+    c = (p + key[i]) % 26
+    cipher += chr(c + 65)
+
+print("Ciphertext:", cipher)
+
+plain = ""
+
+for i in range(len(cipher)):
+    c = ord(cipher[i]) - 65
+    p = (c - key[i]) % 26
+    plain += chr(p + 65)
+
+print("Decrypted Text:", plain)
