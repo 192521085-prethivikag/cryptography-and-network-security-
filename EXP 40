@@ -1,0 +1,21 @@
+from collections import Counter
+
+cipher = input("Enter ciphertext: ").upper()
+n = int(input("Enter number of possible plaintexts: "))
+
+freq = Counter()
+
+for ch in cipher:
+    if ch.isalpha():
+        freq[ch] += 1
+
+english = "ETAOINSHRDLCUMWFGYPBVKJXQZ"
+
+print("Top", n, "Possible Substitutions:")
+
+i = 0
+for ch, count in freq.most_common():
+    if i == n:
+        break
+    print(ch, "->", english[i])
+    i += 1
