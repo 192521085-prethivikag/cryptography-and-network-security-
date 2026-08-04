@@ -1,0 +1,12 @@
+plaintext = input("Enter plaintext: ").upper().replace(" ", "")
+ciphertext = input("Enter ciphertext: ").upper().replace(" ", "")
+
+print("\nKnown Plaintext Attack")
+print("Plaintext :", plaintext)
+print("Ciphertext:", ciphertext)
+
+if len(plaintext) >= 4 and len(ciphertext) >= 4:
+    print("Sufficient plaintext-ciphertext pairs are available.")
+    print("The Hill cipher key can be recovered using matrix operations.")
+else:
+    print("Not enough plaintext-ciphertext pairs.")
