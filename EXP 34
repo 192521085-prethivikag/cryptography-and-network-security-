@@ -1,0 +1,51 @@
+def pad(text, block):
+    while len(text) % block != 0:
+        text += "0"
+    return text
+
+text = input("Enter plaintext: ")
+key = input("Enter key (8 characters): ")
+iv = input("Enter IV (8 characters): ")
+
+block = 8
+text = pad(text, block)
+
+print("\nECB Mode")
+ecb = ""
+for i in range(0, len(text), block):
+    p = text[i:i+block]
+    c = ""
+    for j in range(block):
+        c += chr(ord(p[j]) ^ ord(key[j]))
+    ecb += c
+print("Ciphertext:", ecb)
+
+print("\nCBC Mode")
+cbc = ""
+prev = iv
+for i in range(0, len(text), block):
+    p = text[i:i+block]
+    temp = ""
+    for j in range(block):
+        temp += chr(ord(p[j]) ^ ord(prev[j]))
+    c = ""
+    for j in range(block):
+        c += chr(ord(temp[j]) ^ ord(key[j]))
+    cbc += c
+    prev = c
+print("Ciphertext:", cbc)
+
+print("\nCFB Mode")
+cfb = ""
+prev = iv
+for i in range(0, len(text), block):
+    p = text[i:i+block]
+    temp = ""
+    for j in range(block):
+        temp += chr(ord(prev[j]) ^ ord(key[j]))
+    c = ""
+    for j in range(block):
+        c += chr(ord(p[j]) ^ ord(temp[j]))
+    cfb += c
+    prev = c
+print("Ciphertext:", cfb)
