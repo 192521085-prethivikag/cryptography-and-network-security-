@@ -1,0 +1,28 @@
+import random
+
+p = 23
+q = 11
+g = 2
+
+x = 3
+y = pow(g, x, p)
+
+m = int(input("Enter message: "))
+
+k1 = random.randint(1, q - 1)
+r1 = pow(g, k1, p) % q
+k1_inv = pow(k1, -1, q)
+s1 = (k1_inv * (m + x * r1)) % q
+
+k2 = random.randint(1, q - 1)
+r2 = pow(g, k2, p) % q
+k2_inv = pow(k2, -1, q)
+s2 = (k2_inv * (m + x * r2)) % q
+
+print("Signature 1:", (r1, s1))
+print("Signature 2:", (r2, s2))
+
+if (r1, s1) != (r2, s2):
+    print("Signatures are different because a new random k is used.")
+else:
+    print("Signatures are the same.")
