@@ -1,0 +1,32 @@
+from Crypto.Cipher import DES3, AES
+from Crypto.Util.Padding import pad
+import time
+text = input("Enter plaintext: ")
+data = text.encode() * ((10 * 1024 * 1024 // len(text)) + 1)
+data = data[:10 * 1024 * 1024]
+des3_key = b"0123456789abcdef01234567"
+des3_iv = b"12345678"
+aes_key = b"0123456789abcdef"
+aes_iv = b"1234567890123456"
+des3_data = pad(data, DES3.block_size)
+aes_data = pad(data, AES.block_size)
+start = time.perf_counter()
+des3 = DES3.new(des3_key, DES3.MODE_CBC, des3_iv)
+des3_ciphertext = des3.encrypt(des3_data)
+des3_time = time.perf_counter() - start
+start = time.perf_counter()
+aes = AES.new(aes_key, AES.MODE_CBC, aes_iv)
+aes_ciphertext = aes.encrypt(aes_data)
+aes_time = time.perf_counter() - start
+print("\nInput Size:", len(data), "bytes")
+print("\n3DES")
+print("Ciphertext:", des3_ciphertext[:16].hex())
+print("Time:", round(des3_time, 4), "seconds")
+print("\nAES")
+print("Ciphertext:", aes_ciphertext[:16].hex())
+print("Time:", round(aes_time, 4), "seconds")
+if aes_time < des3_time:
+    print("\nAES is faster than 3DES")
+else:
+    print("\n3DES is faster than AES")
+print("AES provides stronger security than DES/3DES")
