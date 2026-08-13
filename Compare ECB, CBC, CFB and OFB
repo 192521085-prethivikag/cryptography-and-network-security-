@@ -1,0 +1,46 @@
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+import time
+
+key = b"0123456789abcdef"
+iv = b"1234567890123456"
+
+text = input("Enter plaintext: ").encode()
+
+modes = {
+    "ECB": AES.MODE_ECB,
+    "CBC": AES.MODE_CBC,
+    "CFB": AES.MODE_CFB,
+    "OFB": AES.MODE_OFB
+}
+
+for name, mode in modes.items():
+
+    if name == "ECB":
+        cipher = AES.new(key, mode)
+    else:
+        cipher = AES.new(key, mode, iv)
+
+    if name in ["ECB", "CBC"]:
+        data = pad(text, AES.block_size)
+    else:
+        data = text
+
+    start = time.perf_counter()
+    encrypted = cipher.encrypt(data)
+    end = time.perf_counter()
+
+    if name == "ECB":
+        decipher = AES.new(key, mode)
+    else:
+        decipher = AES.new(key, mode, iv)
+
+    decrypted = decipher.decrypt(encrypted)
+
+    if name in ["ECB", "CBC"]:
+        decrypted = unpad(decrypted, AES.block_size)
+
+    print("\nMode:", name)
+    print("Ciphertext:", encrypted.hex())
+    print("Decrypted Text:", decrypted.decode())
+    print("Execution Time:", round(end - start, 6), "seconds")
