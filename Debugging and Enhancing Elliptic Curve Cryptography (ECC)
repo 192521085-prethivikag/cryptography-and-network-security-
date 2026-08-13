@@ -1,0 +1,71 @@
+import time
+
+p = 9739
+a = 497
+b = 1768
+G = (1804, 5368)
+
+def inverse(k):
+    return pow(k % p, -1, p)
+
+def point_add(P, Q):
+    if P is None:
+        return Q
+
+    if Q is None:
+        return P
+
+    x1, y1 = P
+    x2, y2 = Q
+
+    if x1 == x2 and (y1 + y2) % p == 0:
+        return None
+
+    if P == Q:
+        m = ((3 * x1 * x1 + a) * inverse(2 * y1)) % p
+    else:
+        m = ((y2 - y1) * inverse(x2 - x1)) % p
+
+    x3 = (m * m - x1 - x2) % p
+    y3 = (m * (x1 - x3) - y1) % p
+
+    return (x3, y3)
+
+def scalar_multiply(k, P):
+    result = None
+    current = P
+
+    while k > 0:
+        if k % 2 == 1:
+            result = point_add(result, current)
+
+        current = point_add(current, current)
+        k //= 2
+
+    return result
+
+alice_private = 121
+bob_private = 202
+
+start = time.perf_counter()
+
+alice_public = scalar_multiply(alice_private, G)
+bob_public = scalar_multiply(bob_private, G)
+
+alice_shared = scalar_multiply(alice_private, bob_public)
+bob_shared = scalar_multiply(bob_private, alice_public)
+
+end = time.perf_counter()
+
+print("Elliptic Curve: y² = x³ +", a, "x +", b, "mod", p)
+print("Base Point:", G)
+
+print("\nAlice Public Key:", alice_public)
+print("Bob Public Key:", bob_public)
+
+print("\nAlice Shared Key:", alice_shared)
+print("Bob Shared Key:", bob_shared)
+
+print("Keys Match:", alice_shared == bob_shared)
+
+print("Execution Time:", round(end - start, 6), "seconds")
