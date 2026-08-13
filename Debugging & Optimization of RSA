@@ -1,0 +1,97 @@
+import math
+import random
+import time
+
+def gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+def is_prime(n):
+    if n < 2:
+        return False
+    if n % 2 == 0:
+        return n == 2
+    i = 3
+    while i * i <= n:
+        if n % i == 0:
+            return False
+        i += 2
+    return True
+
+def generate_prime():
+    while True:
+        p = random.randrange(1000, 5000)
+        if is_prime(p):
+            return p
+
+def generate_keys():
+    p = generate_prime()
+    q = generate_prime()
+
+    while q == p:
+        q = generate_prime()
+
+    n = p * q
+    phi = (p - 1) * (q - 1)
+
+    e = 65537
+
+    while gcd(e, phi) != 1:
+        e += 2
+
+    d = pow(e, -1, phi)
+
+    return p, q, n, e, d
+
+def encrypt(message, e, n):
+    return [pow(ord(ch), e, n) for ch in message]
+
+def decrypt(ciphertext, d, n):
+    return ''.join(chr(pow(c, d, n)) for c in ciphertext)
+
+def decrypt_crt(ciphertext, p, q, d):
+    dp = d % (p - 1)
+    dq = d % (q - 1)
+    qinv = pow(q, -1, p)
+
+    plaintext = ""
+
+    for c in ciphertext:
+        m1 = pow(c, dp, p)
+        m2 = pow(c, dq, q)
+        h = (qinv * (m1 - m2)) % p
+        m = m2 + h * q
+        plaintext += chr(m)
+
+    return plaintext
+
+p, q, n, e, d = generate_keys()
+
+print("p =", p)
+print("q =", q)
+print("n =", n)
+print("e =", e)
+print("d =", d)
+
+message = input("\nEnter message: ")
+
+if max([ord(ch) for ch in message], default=0) >= n:
+    print("Message contains a character larger than the modulus.")
+else:
+    start = time.perf_counter()
+
+    ciphertext = encrypt(message, e, n)
+
+    encryption_time = time.perf_counter() - start
+
+    start = time.perf_counter()
+
+    plaintext = decrypt_crt(ciphertext, p, q, d)
+
+    decryption_time = time.perf_counter() - start
+
+    print("\nCiphertext:", ciphertext)
+    print("Decrypted Text:", plaintext)
+    print("Encryption Time:", round(encryption_time, 6), "seconds")
+    print("CRT Decryption Time:", round(decryption_time, 6), "seconds")
