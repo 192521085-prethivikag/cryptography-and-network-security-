@@ -1,0 +1,37 @@
+security_associations = {}
+
+def create_sa(sa_id, spi, source, destination, key):
+    security_associations[sa_id] = {
+        "SPI": spi,
+        "Source": source,
+        "Destination": destination,
+        "Key": key
+    }
+    print("Security Association Created")
+
+def lookup_sa(sa_id):
+    if sa_id in security_associations:
+        print("SA Found:", security_associations[sa_id])
+    else:
+        print("SA Not Found")
+
+def delete_sa(sa_id):
+    if sa_id in security_associations:
+        del security_associations[sa_id]
+        print("Security Association Deleted")
+    else:
+        print("SA Not Found")
+
+create_sa(
+    "SA1",
+    1001,
+    "192.168.1.10",
+    "192.168.1.20",
+    "secretkey"
+)
+
+lookup_sa("SA1")
+
+delete_sa("SA1")
+
+lookup_sa("SA1")
