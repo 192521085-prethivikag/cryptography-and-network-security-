@@ -1,0 +1,29 @@
+import re
+spam_words = ["win","winner","free","prize","offer","urgent","claim","lottery","money","click here"]
+def classify_email(sender, subject, body):
+    score = 0
+
+    if not re.match(r"^[^@]+@[^@]+\.[^@]+$", sender):
+        score += 2
+
+    text = (subject + " " + body).lower()
+
+    for word in spam_words:
+        if word in text:
+            score += 1
+
+    if "http://" in text or "https://" in text:
+        score += 1
+
+    if score >= 3:
+        return "SPAM"
+    else:
+        return "LEGITIMATE"
+
+sender = input("Enter sender email: ")
+subject = input("Enter email subject: ")
+body = input("Enter email content: ")
+
+result = classify_email(sender, subject, body)
+
+print("Email Classification:", result)
