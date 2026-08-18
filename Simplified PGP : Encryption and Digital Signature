@@ -1,0 +1,35 @@
+from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_OAEP
+from Crypto.Signature import pkcs1_15
+from Crypto.Hash import SHA256
+
+key = RSA.generate(2048)
+
+private_key = key
+public_key = key.publickey()
+
+message = input("Enter email message: ").encode()
+
+hash_value = SHA256.new(message)
+signature = pkcs1_15.new(private_key).sign(hash_value)
+
+cipher = PKCS1_OAEP.new(public_key)
+encrypted = cipher.encrypt(message)
+
+print("Encrypted Message:", encrypted.hex())
+print("Digital Signature:", signature.hex())
+
+decrypt_cipher = PKCS1_OAEP.new(private_key)
+decrypted = decrypt_cipher.decrypt(encrypted)
+
+print("Decrypted Message:", decrypted.decode())
+
+try:
+    pkcs1_15.new(public_key).verify(
+        SHA256.new(decrypted),
+        signature
+    )
+    print("Digital Signature Verified")
+    print("Message Integrity Verified")
+except ValueError:
+    print("Signature Verification Failed")
