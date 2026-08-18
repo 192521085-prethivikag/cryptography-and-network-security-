@@ -1,0 +1,17 @@
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+
+key = b"0123456789abcdef"
+iv = b"1234567890123456"
+
+message = input("Enter IP packet payload: ").encode()
+
+cipher = AES.new(key, AES.MODE_CBC, iv)
+encrypted = cipher.encrypt(pad(message, AES.block_size))
+
+print("Encrypted Payload:", encrypted.hex())
+
+decipher = AES.new(key, AES.MODE_CBC, iv)
+decrypted = unpad(decipher.decrypt(encrypted), AES.block_size)
+
+print("Decrypted Payload:", decrypted.decode())
