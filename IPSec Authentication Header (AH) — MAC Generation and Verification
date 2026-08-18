@@ -1,0 +1,14 @@
+import hmac
+import hashlib
+key = b"ipsec_secret_key"
+message = input("Enter IP packet data: ").encode()
+mac = hmac.new(key, message, hashlib.sha256).hexdigest()
+print("Authentication MAC:", mac)
+received = input("Enter received packet data: ").encode()
+received_mac = hmac.new(key, received, hashlib.sha256).hexdigest()
+if hmac.compare_digest(mac, received_mac):
+    print("AH Verification Successful")
+    print("Packet Integrity Verified")
+else:
+    print("AH Verification Failed")
+    print("Packet has been modified")
